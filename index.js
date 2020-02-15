@@ -25,37 +25,37 @@ const logger = winston.createLogger({
   ]
 });
 
-const job = cron.schedule("* * * * *", async () => {
+const job = cron.schedule("40 0 * * *", async () => {
   logger.info("Job started");
   try {
-    // const { data } = await axios.get(
-    //   "http://api.openweathermap.org/data/2.5/forecast",
-    //   {
-    //     params: {
-    //       appid: process.env.APP_KEY,
-    //       id: 2791538,
-    //       units: "metric"
-    //     }
-    //   }
-    // );
-
     const { data } = await axios.get(
-      "https://jsonplaceholder.typicode.com/todos/1"
+      "http://api.openweathermap.org/data/2.5/forecast",
+      {
+        params: {
+          appid: process.env.APP_KEY,
+          id: 2791538,
+          units: "metric"
+        }
+      }
     );
+
+    // const { data } = await axios.get(
+    //   "https://jsonplaceholder.typicode.com/todos/1"
+    // );
 
     logger.info("Data fetched from OpenWeatherMap API");
 
-    // const forecast = data.list.filter(item => {
-    //   const now = moment().date();
-    //   const dt = moment(item.dt_txt).date();
-    //   if (now === dt) return item;
-    // });
+    const forecast = data.list.filter(item => {
+      const now = moment().date();
+      const dt = moment(item.dt_txt).date();
+      if (now === dt) return item;
+    });
 
-    // const file = {
-    //   ...data,
-    //   list: forecast,
-    //   ctn: forecast.length
-    // };
+    const file = {
+      ...data,
+      list: forecast,
+      ctn: forecast.length
+    };
 
     try {
       const db = await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
@@ -65,15 +65,15 @@ const job = cron.schedule("* * * * *", async () => {
 
       logger.info("Connected to db");
 
-      const todo = new TodoModel(data);
-      const saved = await todo.save();
-      if (saved) logger.info("Record saved to db");
-      else logger.error("Record failed to be saved");
-
-      // const weather = new WeatherModel(file);
-      // const saved = await weather.save();
+      // const todo = new TodoModel(data);
+      // const saved = await todo.save();
       // if (saved) logger.info("Record saved to db");
       // else logger.error("Record failed to be saved");
+
+      const weather = new WeatherModel(file);
+      const saved = await weather.save();
+      if (saved) logger.info("Record saved to db");
+      else logger.error("Record failed to be saved");
     } catch (error) {
       logger.error("Failed to connect to db");
     }
