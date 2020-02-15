@@ -1,0 +1,21 @@
+{
+  "name": "weather-scrapper",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "moment": "^2.24.0",
+    "mongoose": "^5.9.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/mongoose": "^5.7.1",
+    "dotenv": "^8.2.0"
+  }
+}
