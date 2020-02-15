@@ -7,7 +7,7 @@ const moment = require("moment");
 const { WeatherModel } = require("./models/Weather");
 const cron = require("node-cron");
 
-const job = cron.schedule("0 0 * * *", async () => {
+const job = cron.schedule("30 0 * * *", async () => {
   try {
     const { data } = await axios.get(
       "http://api.openweathermap.org/data/2.5/forecast",
@@ -31,17 +31,6 @@ const job = cron.schedule("0 0 * * *", async () => {
       list: forecast,
       ctn: forecast.length
     };
-
-    // Create directory if not exists
-    const weatherDir = "./weather";
-    if (!fs.existsSync(weatherDir)) {
-      fs.mkdirSync(weatherDir);
-    }
-
-    const today = moment().unix();
-    fs.writeFileSync(`./weather/${today}.json`, JSON.stringify(file, null, 2), {
-      encoding: "utf8"
-    });
 
     try {
       const db = await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
