@@ -7,7 +7,7 @@ const moment = require("moment");
 const { WeatherModel } = require("./models/Weather");
 const cron = require("node-cron");
 
-const job = cron.schedule("@daily", async () => {
+const job = cron.schedule("0 0 * * *", async () => {
   try {
     const { data } = await axios.get(
       "http://api.openweathermap.org/data/2.5/forecast",
