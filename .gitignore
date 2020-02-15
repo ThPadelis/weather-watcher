@@ -6,3 +6,6 @@ weather/
 
 # dotenv
 .env
+
+# Logs
+*.log

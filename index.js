@@ -6,49 +6,79 @@ const fs = require("fs");
 const moment = require("moment");
 const { WeatherModel } = require("./models/Weather");
 const cron = require("node-cron");
+const winston = require("winston");
 
-const job = cron.schedule("30 0 * * *", async () => {
+const { TodoModel } = require("./models/Todo");
+
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.combine(
+    winston.format.label({ label: "WeatherWatcher" }),
+    winston.format.timestamp({
+      format: "YYYY-MM-DD HH:mm:ss"
+    }),
+    winston.format.simple()
+  ),
+  transports: [
+    new winston.transports.File({ filename: "error.log", level: "error" }),
+    new winston.transports.File({ filename: "combined.log" })
+  ]
+});
+
+const job = cron.schedule("* * * * *", async () => {
+  logger.info("Job started");
   try {
+    // const { data } = await axios.get(
+    //   "http://api.openweathermap.org/data/2.5/forecast",
+    //   {
+    //     params: {
+    //       appid: process.env.APP_KEY,
+    //       id: 2791538,
+    //       units: "metric"
+    //     }
+    //   }
+    // );
+
     const { data } = await axios.get(
-      "http://api.openweathermap.org/data/2.5/forecast",
-      {
-        params: {
-          appid: process.env.APP_KEY,
-          id: 2791538,
-          units: "metric"
-        }
-      }
+      "https://jsonplaceholder.typicode.com/todos/1"
     );
 
-    const forecast = data.list.filter(item => {
-      const now = moment().date();
-      const dt = moment(item.dt_txt).date();
-      if (now === dt) return item;
-    });
+    logger.info("Data fetched from OpenWeatherMap API");
 
-    const file = {
-      ...data,
-      list: forecast,
-      ctn: forecast.length
-    };
+    // const forecast = data.list.filter(item => {
+    //   const now = moment().date();
+    //   const dt = moment(item.dt_txt).date();
+    //   if (now === dt) return item;
+    // });
+
+    // const file = {
+    //   ...data,
+    //   list: forecast,
+    //   ctn: forecast.length
+    // };
 
     try {
       const db = await mongoose.connect(process.env.MONGO_CONNECTION_STRING, {
         useNewUrlParser: true,
         useUnifiedTopology: true
       });
-      console.log("Connected to db");
 
-      const weather = new WeatherModel(file);
+      logger.info("Connected to db");
 
-      const saved = await weather.save();
+      const todo = new TodoModel(data);
+      const saved = await todo.save();
+      if (saved) logger.info("Record saved to db");
+      else logger.error("Record failed to be saved");
 
-      if (saved) console.log("Weather screenshot saved");
-      else console.log("Failed to save screenshot to db");
+      // const weather = new WeatherModel(file);
+      // const saved = await weather.save();
+      // if (saved) logger.info("Record saved to db");
+      // else logger.error("Record failed to be saved");
     } catch (error) {
-      console.log("Failed to connect to db");
+      logger.error("Failed to connect to db");
     }
   } catch (error) {
-    console.log(error);
+    logger.error("Failed to fetch data from OpenWeatherMap API");
+    logger.error(JSON.stringify(error));
   }
 });
