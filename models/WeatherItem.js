@@ -21,6 +21,8 @@ const ItemWeatherSchema = mongoose.Schema({
 
 const ItemCloudSchema = mongoose.Schema({ all: Number });
 const ItemWindSchema = mongoose.Schema({ speed: Number, deg: Number });
+const ItemRainSchema = mongoose.Schema({ "3h": Number });
+const ItemSnowSchema = mongoose.Schema({ "3h": Number });
 const ItemSysSchema = mongoose.Schema({ pod: String });
 
 const ItemSchema = mongoose.Schema({
@@ -29,6 +31,8 @@ const ItemSchema = mongoose.Schema({
   weather: [ItemWeatherSchema],
   clouds: { type: ItemCloudSchema },
   wind: { type: ItemWindSchema },
+  rain: { type: ItemRainSchema },
+  snow: { type: ItemSnowSchema },
   sys: { type: ItemSysSchema },
   dt_txt: String
 });
@@ -38,6 +42,8 @@ const ItemMainModel = mongoose.model("ItemMain", ItemMainSchema);
 const ItemWeatherModel = mongoose.model("ItemWeather", ItemWeatherSchema);
 const ItemCloudModel = mongoose.model("Cloud", ItemCloudSchema);
 const ItemWindModel = mongoose.model("Wind", ItemWindSchema);
+const ItemRainModel = mongoose.model("Rain", ItemRainSchema);
+const ItemSnowModel = mongoose.model("Snow", ItemSnowSchema);
 const ItemSysModel = mongoose.model("Sys", ItemSysSchema);
 
 module.exports = {
@@ -51,6 +57,10 @@ module.exports = {
   ItemCloudModel,
   ItemWindSchema,
   ItemWindModel,
+  ItemRainSchema,
+  ItemRainModel,
+  ItemSnowSchema,
+  ItemSnowModel,
   ItemSysSchema,
   ItemSysModel
 };
