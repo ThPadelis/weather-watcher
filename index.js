@@ -23,7 +23,7 @@ const logger = winston.createLogger({
   ]
 });
 
-const job = cron.schedule("42 0 * * *", async () => {
+const job = cron.schedule("0 0 * * *", async () => {
   logger.info("Job started");
   try {
     const { data } = await axios.get(
