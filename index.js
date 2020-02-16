@@ -8,8 +8,6 @@ const { WeatherModel } = require("./models/Weather");
 const cron = require("node-cron");
 const winston = require("winston");
 
-const { TodoModel } = require("./models/Todo");
-
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.combine(
@@ -39,10 +37,6 @@ const job = cron.schedule("42 0 * * *", async () => {
       }
     );
 
-    // const { data } = await axios.get(
-    //   "https://jsonplaceholder.typicode.com/todos/1"
-    // );
-
     logger.info("Data fetched from OpenWeatherMap API");
 
     const forecast = data.list.filter(item => {
@@ -64,11 +58,6 @@ const job = cron.schedule("42 0 * * *", async () => {
       });
 
       logger.info("Connected to db");
-
-      // const todo = new TodoModel(data);
-      // const saved = await todo.save();
-      // if (saved) logger.info("Record saved to db");
-      // else logger.error("Record failed to be saved");
 
       const weather = new WeatherModel(file);
       const saved = await weather.save();
