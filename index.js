@@ -58,4 +58,7 @@ const { createRaw } = require("./utils/writeToFile");
   }
 
   process.exit();
-})();
+})().catch(error => {
+  logger.error("Failed to started");
+  logger.error(JSON.stringify(error));
+});
