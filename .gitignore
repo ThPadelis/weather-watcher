@@ -8,4 +8,5 @@ weather/
 .env
 
 # Logs
+logs/
 *.log
