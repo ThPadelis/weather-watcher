@@ -10,3 +10,6 @@ weather/
 # Logs
 logs/
 *.log
+
+# Raw filess
+raw/
