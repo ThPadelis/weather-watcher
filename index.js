@@ -6,8 +6,9 @@ const moment = require("moment");
 const { WeatherModel } = require("./models/Weather");
 const { logger } = require("./utils/logger");
 const { createRaw } = require("./utils/writeToFile");
+const cron = require("node-cron");
 
-(async () => {
+cron.schedule("0 0 * * *", async () => {
   logger.info("Job started");
   try {
     const { data } = await axios.get(
@@ -56,9 +57,4 @@ const { createRaw } = require("./utils/writeToFile");
     logger.error("Failed to fetch data from OpenWeatherMap API");
     logger.error(JSON.stringify(error));
   }
-
-  process.exit();
-})().catch(error => {
-  logger.error("Failed to started");
-  logger.error(JSON.stringify(error));
 });

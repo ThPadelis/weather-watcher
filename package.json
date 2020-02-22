@@ -13,6 +13,7 @@
     "dotenv": "^8.2.0",
     "moment": "^2.24.0",
     "mongoose": "^5.9.0",
+    "node-cron": "^2.0.3",
     "winston": "^3.2.1"
   },
   "devDependencies": {
