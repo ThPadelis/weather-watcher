@@ -1,7 +1,7 @@
 const { getWeather } = require("./src/app");
 const cron = require("node-cron");
 
-// cron.schedule("0 0 * * *", () => {
+cron.schedule("0 0 * * *", () => {
   getWeather()
     .then(item => {
       console.log("Item saved");
@@ -10,4 +10,4 @@ const cron = require("node-cron");
       console.log("Failed");
       console.log(error);
     });
-// });
+});
