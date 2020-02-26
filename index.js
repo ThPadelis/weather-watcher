@@ -5,11 +5,11 @@ cron.schedule("0 0 * * *", () => {
   getWeather()
     .then(item => {
       console.log("Item saved");
-      process.exit();
+//      process.exit();
     })
     .catch(error => {
       console.log("Failed");
       console.log(error);
-      process.exit();
+//      process.exit();
     });
 });
