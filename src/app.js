@@ -49,6 +49,8 @@ function getWeather() {
       };
 
       const savedItem = await new ItemModel(item).save();
+
+      db.connection.close();
       logger.log({
         level: "info",
         message: "Item saved to MongoDB successfully"
