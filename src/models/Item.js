@@ -1,18 +1,18 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 const { CitySchema } = require("./City");
 const { ListITemSchema } = require("./ListItem");
 
-const ItemSchema = mongoose.Schema(
+const ItemSchema = Schema(
   {
     code: { type: Number },
     message: { type: String },
     city: { type: CitySchema },
     cnt: { type: Number },
-    list: { type: [ListITemSchema] }
+    list: { type: [ListITemSchema] },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false }
 );
 
-const ItemModel = mongoose.model("Item", ItemSchema);
+const ItemModel = model("Item", ItemSchema);
 
 module.exports = { ItemSchema, ItemModel };

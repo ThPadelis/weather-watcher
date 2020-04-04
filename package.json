@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node .",
+    "dev": "nodemon ."
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +20,6 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
-    "@types/mongoose": "^5.7.1"
+    "@types/mongoose": "^5.7.8"
   }
 }
