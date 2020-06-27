@@ -14,6 +14,9 @@ const { logger } = require("./src/utils/logger");
 //   }
 // });
 
-cron.schedule("* * * * *", async () => {
-  logger.log({ level: "info", message: "Weather item saved" });
-});
+// cron.schedule("* * * * *", async () => {
+//   logger.log({ level: "info", message: "Weather item saved" });
+// });
+
+console.log("Cron job started");
+logger.log({ level: "info", message: "Weather item saved" });
