@@ -29,5 +29,4 @@ getWeather()
   .finally(() => {
     console.log("Application run");
     logger.info("Application run");
-    process.exit(0);
   });
