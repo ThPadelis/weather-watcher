@@ -14,7 +14,20 @@ const { logger } = require("./src/utils/logger");
 //   }
 // })();
 
-(function () {
-  logger.info("Application run!");
-  console.info("Application run!");
-})();
+getWeather()
+  .then((weather) => {
+    if (weather) {
+      console.log("getWeather() run successfully!");
+      logger.info("getWeather() run successfully!");
+    }
+  })
+  .catch((error) => {
+    console.log("getWeather() failed to run");
+    logger.info("getWeather() failed to run");
+    logger.error({ error });
+  })
+  .finally(() => {
+    console.log("Application run");
+    logger.info("Application run");
+    process.exit(0);
+  });
