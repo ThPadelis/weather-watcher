@@ -1,15 +1,32 @@
 const { getWeather } = require("./src/app");
-const cron = require("node-cron");
 const { logger } = require("./src/utils/logger");
 
-cron.schedule("0 0 * * *", async () => {
-  try {
-    const weather = await getWeather();
+// (async function () {
+//   try {
+//     const weather = await getWeather();
+//     if (weather) {
+//       console.info("Weather item saved");
+//       logger.log({ level: "info", message: "Weather item saved" });
+//     }
+//   } catch (error) {
+//     console.error("Failed to save weather item");
+//     console.error({ error });
+//   }
+// })();
+
+getWeather()
+  .then((weather) => {
     if (weather) {
-      logger.log({ level: "info", message: "Weather item saved" });
+      console.log("getWeather() run successfully!");
+      logger.info("getWeather() run successfully!");
     }
-  } catch (error) {
-    logger.error("Failed to save weather item");
-    logger.error(error);
-  }
-});
+  })
+  .catch((error) => {
+    console.log("getWeather() failed to run");
+    logger.info("getWeather() failed to run");
+    logger.error({ error });
+  })
+  .finally(() => {
+    console.log("Application run");
+    logger.info("Application run");
+  });
