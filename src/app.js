@@ -10,24 +10,24 @@ function getWeather() {
   const baseURL = `https://api.openweathermap.org/data/2.5/forecast`;
   let rawData;
 
-  return new Promise(async function(resolve, reject) {
+  return new Promise(async function (resolve, reject) {
     try {
       const response = await axios.get(baseURL, {
         params: {
           id: process.env.CITY_ID,
           appid: process.env.API_KEY,
-          units: "metric"
-        }
+          units: "metric",
+        },
       });
       rawData = response.data;
-      logger.log({
+      console.log({
         level: "info",
-        message: "Data fetched from OpenWeatherMap API"
+        message: "Data fetched from OpenWeatherMap API",
       });
     } catch (error) {
-      logger.log({
+      console.log({
         level: "error",
-        message: JSON.stringify(error, null, 2)
+        message: JSON.stringify(error, null, 2),
       });
       reject(error);
     }
@@ -35,31 +35,31 @@ function getWeather() {
     try {
       const db = await mongoose.connect(process.env.DB_CONNECTION_STRING, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
       });
-      logger.log({
+      console.log({
         level: "info",
-        message: "Connected to MongoDB successfully"
+        message: "Connected to MongoDB successfully",
       });
 
       const item = {
         ...rawData,
-        list: rawData.list.filter(item => isSame(item)),
-        cnt: rawData.list.filter(item => isSame(item)).length
+        list: rawData.list.filter((item) => isSame(item)),
+        cnt: rawData.list.filter((item) => isSame(item)).length,
       };
 
       const savedItem = await new ItemModel(item).save();
 
       db.connection.close();
-      logger.log({
+      console.log({
         level: "info",
-        message: "Item saved to MongoDB successfully"
+        message: "Item saved to MongoDB successfully",
       });
       resolve(savedItem);
     } catch (error) {
-      logger.log({
+      console.log({
         level: "error",
-        message: JSON.stringify(error, null, 2)
+        message: JSON.stringify(error, null, 2),
       });
       reject(error);
     }

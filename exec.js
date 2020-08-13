@@ -9,7 +9,7 @@ const { logger } = require("./src/utils/logger");
       console.log({
         message: "Weather item saved",
         createdAt: Date.now(),
-        item: JSON.stringify(weather),
+        item: weather._id,
       });
     }
   } catch (error) {
