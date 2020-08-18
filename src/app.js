@@ -44,6 +44,7 @@ function getWeather() {
 
       const item = {
         ...rawData,
+	message: "ATC VM",
         list: rawData.list.filter((item) => isSame(item)),
         cnt: rawData.list.filter((item) => isSame(item)).length,
       };
@@ -54,6 +55,7 @@ function getWeather() {
       console.log({
         level: "info",
         message: "Item saved to MongoDB successfully",
+	item: item.list.length
       });
       resolve(savedItem);
     } catch (error) {
