@@ -1,7 +1,7 @@
 const { getWeather } = require("./src/app");
 var cron = require("node-cron");
 
-cron.schedule("0 1 * * *", async () => {
+cron.schedule("0 0 * * *", async () => {
   try {
     const weather = await getWeather();
     if (weather) {
